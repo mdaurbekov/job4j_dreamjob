@@ -4,11 +4,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.dreamjob.model.Post;
 import ru.job4j.dreamjob.store.PostStore;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 @Controller
@@ -27,9 +27,22 @@ public class PostController {
         model.addAttribute("post", new Post(0, "Заполните название", "Заполните описание", LocalDateTime.now()));
         return "addPost";
     }
+
     @PostMapping("/createPost")
     public String createPost(@ModelAttribute Post post) {
-         postStore.add(post);
+        postStore.add(post);
         return "redirect:/posts";
+    }
+
+    @PostMapping("/updatePost")
+    public String updatePost(@ModelAttribute Post post) {
+        postStore.update(post);
+        return "redirect:/posts";
+    }
+
+    @GetMapping("/formUpdatePost/{postId}")
+    public String formUpdatePost(Model model, @PathVariable("postId") int id) {
+        model.addAttribute("post", postStore.findById(id));
+        return "updatePost";
     }
 }
