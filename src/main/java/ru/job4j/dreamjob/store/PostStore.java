@@ -19,6 +19,12 @@ public class PostStore {
         posts.put(3, new Post(3, "Senior Java Job", "description_3", LocalDateTime.now()));
     }
 
+    public void add(Post post) {
+        int number = posts.size() + 1;
+        post.setId(number);
+        posts.put(number, post);
+    }
+
     public static PostStore instOf() {
         return INST;
     }
