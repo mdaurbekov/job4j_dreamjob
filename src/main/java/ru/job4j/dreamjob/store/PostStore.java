@@ -14,17 +14,17 @@ public class PostStore {
 
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
 
-    private AtomicInteger number = new AtomicInteger();
+    private AtomicInteger numberPost = new AtomicInteger();
 
     private PostStore() {
-        posts.put(number.incrementAndGet(), new Post(number.get(), "Junior Java Job", "description_1", LocalDateTime.now()));
-        posts.put(number.incrementAndGet(), new Post(number.get(), "Middle Java Job", "description_2", LocalDateTime.now()));
-        posts.put(number.incrementAndGet(), new Post(number.get(), "Senior Java Job", "description_3", LocalDateTime.now()));
+        posts.put(numberPost.incrementAndGet(), new Post(numberPost.get(), "Junior Java Job", "description_1", LocalDateTime.now()));
+        posts.put(numberPost.incrementAndGet(), new Post(numberPost.get(), "Middle Java Job", "description_2", LocalDateTime.now()));
+        posts.put(numberPost.incrementAndGet(), new Post(numberPost.get(), "Senior Java Job", "description_3", LocalDateTime.now()));
     }
 
     public void add(Post post) {
-        post.setId(number.incrementAndGet());
-        posts.put(number.get(), post);
+        post.setId(numberPost.incrementAndGet());
+        posts.put(numberPost.get(), post);
     }
 
     public Post findById(int id) {
