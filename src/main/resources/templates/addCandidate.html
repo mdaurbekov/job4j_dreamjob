@@ -39,18 +39,27 @@
                 Новый кандидат.
             </div>
             <div class="card-body">
-                <form>
+                <form th:action="@{/createCandidate}" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label>Имя
-                            <input type="text" class="form-control">
-                        </label>
-                        <label>Описание
-                            <input type="text" class="form-control">
-                        </label>
+                        <input type="hidden" name="id" value="5"/>
+                        <label for="name">Имя</label>
+                        <input type="text" class="form-control" name="name" id="name">
+                        <label for="desc">Описание</label>
+                        <input type="text" class="form-control" name="description" id="desc">
+                    </div>
+                    <div class="form-group">
+                        <label for="city.id">Город</label>
+                        <select class="form-control" id="city.id" name="city.id">
+                            <option th:each="city : ${cities}" th:value="${city.id}" th:text="${city.name}"></option>
+                        </select>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" name="visible" class="form-check-input" id="visible">
                         <label class="form-check-label" for="visible">Опубликовать</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Фотография</label>
+                        <input type="file" class="form-control" name="file" id="file">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
