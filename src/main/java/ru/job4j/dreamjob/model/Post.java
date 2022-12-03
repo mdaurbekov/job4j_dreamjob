@@ -8,21 +8,22 @@ public class Post {
     private String name;
     private String description;
     private LocalDateTime created;
-    private boolean visible;
-
     private City city;
+    private boolean visible;
 
     public Post() {
     }
 
 
-    public Post(int id, String name, String description, LocalDateTime created, City city) {
+    public Post(int id, String name, String description, LocalDateTime created, City city, boolean visible) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.created = created;
         this.city = city;
+        this.visible = visible;
     }
+
 
     public int getId() {
         return id;
@@ -55,6 +56,7 @@ public class Post {
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }
+
     public boolean isVisible() {
         return visible;
     }

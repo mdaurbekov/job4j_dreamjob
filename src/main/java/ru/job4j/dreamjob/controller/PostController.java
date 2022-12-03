@@ -35,20 +35,20 @@ public class PostController {
     @GetMapping("/formAddPost")
     public String addPost(Model model) {
         model.addAttribute("post", new Post(0, "Заполните название", "Заполните описание",
-                LocalDateTime.now(), null));
+                LocalDateTime.now(), null, false));
         model.addAttribute("cities", cityService.getAllCities());
         return "addPost";
     }
 
     @PostMapping("/createPost")
     public String createPost(@ModelAttribute Post post) {
-        postService.add(post, cityService.findById(post.getCity().getId()));
+        postService.add(post);
         return "redirect:/posts";
     }
 
     @PostMapping("/updatePost")
     public String updatePost(@ModelAttribute Post post) {
-        postService.update(post, cityService.findById(post.getCity().getId()));
+        postService.update(post);
         return "redirect:/posts";
     }
 
