@@ -31,7 +31,9 @@ public class PostService {
     }
 
     public Post findById(int id) {
-        return postStore.findById(id);
+        Post post = postStore.findById(id);
+        post.setCity(cityService.findById(post.getCity().getId()));
+        return post;
     }
 
     public Collection<Post> findAll() {

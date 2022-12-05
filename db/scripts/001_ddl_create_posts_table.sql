@@ -3,6 +3,6 @@ CREATE TABLE post (
    name TEXT,
    description TEXT,
    created timestamp,
-   city_id integer references city(id)
+   city_id integer,
    visible boolean
 );
