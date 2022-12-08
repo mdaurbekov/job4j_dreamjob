@@ -10,8 +10,6 @@ import ru.job4j.dreamjob.model.Post;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Repository
@@ -35,9 +33,7 @@ public class PostDBStore {
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    posts.add(new Post(it.getInt("id"), it.getString("name"),
-                            it.getString("description"), it.getTimestamp("created").toLocalDateTime(),
-                            getCity(it), it.getBoolean("visible")));
+                    posts.add(getPost(it));
                 }
             }
         } catch (Exception e) {
@@ -91,15 +87,19 @@ public class PostDBStore {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new Post(it.getInt("id"), it.getString("name"),
-                            it.getString("description"), it.getTimestamp("created").toLocalDateTime(),
-                            getCity(it), it.getBoolean("visible"));
+                    return getPost(it);
                 }
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    private Post getPost(ResultSet it) throws SQLException {
+        return new Post(it.getInt("id"), it.getString("name"),
+                it.getString("description"), it.getTimestamp("created").toLocalDateTime(),
+                getCity(it), it.getBoolean("visible"));
     }
 
     private City getCity(ResultSet it) throws SQLException {
