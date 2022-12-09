@@ -49,15 +49,14 @@ public class UserDBStore {
     public Optional<User> findUserByEmailAndPassword(String email, String password) {
         Optional<User> optUser = Optional.empty();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement(ADD,
+             PreparedStatement ps = cn.prepareStatement(FIND_BY_EMAIL_AND_PASSWORD,
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, email);
             ps.setString(2, password);
-            ps.execute();
-            try (ResultSet id = ps.getGeneratedKeys()) {
-                if (id.next()) {
-                    Optional.of(getUser(id));
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    optUser = Optional.of(getUser(it));
                 }
             }
         } catch (Exception e) {
@@ -66,8 +65,9 @@ public class UserDBStore {
         return optUser;
     }
 
-    private User getUser(ResultSet id) throws SQLException {
-        return new User(id.getInt("id"), id.getString("name"),
-                id.getString("email"), id.getString("password"));
+    private User getUser(ResultSet it) throws SQLException {
+        User user = new User(it.getInt("id"), it.getString("name"),
+                it.getString("email"), it.getString("password"));
+        return user;
     }
 }
