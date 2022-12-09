@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+
 public class CandidateDBStoreTest {
     CandidateDBStore store = new CandidateDBStore(new Main().loadPool());
 
@@ -24,9 +25,9 @@ public class CandidateDBStoreTest {
 
     @Test
     public void updateCandidate() {
-        Candidate candidate1 = new Candidate(1, "candidate 1", "description_1",
+        Candidate candidate1 = new Candidate(2, "candidate 1", "description_1",
                 LocalDateTime.now(), true, new City(1, "Москва"), null);
-        Candidate candidate2 = new Candidate(1, "candidate 1 update", "description_1",
+        Candidate candidate2 = new Candidate(2, "candidate 1 update", "description_1",
                 LocalDateTime.now(), true, new City(1, "Москва"), null);
         store.add(candidate1);
         store.update(candidate2);

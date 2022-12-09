@@ -10,6 +10,7 @@ import ru.job4j.dreamjob.model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @ThreadSafe
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class UserDBStore {
     private static final Logger LOG = LogManager.getLogger(UserDBStore.class.getName());
     private static final String ADD = "INSERT INTO users(name, email) VALUES (?, ?)";
+    private static final String FIND_BY_EMAIL_AND_PASSWORD = "SELECT * FROM USERS WHERE email = ? AND password = ?";
     private final BasicDataSource pool;
 
     public UserDBStore(BasicDataSource pool) {
@@ -42,5 +44,30 @@ public class UserDBStore {
             LOG.error(e.getMessage(), e);
         }
         return optUser;
+    }
+
+    public Optional<User> findUserByEmailAndPassword(String email, String password) {
+        Optional<User> optUser = Optional.empty();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(ADD,
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    Optional.of(getUser(id));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return optUser;
+    }
+
+    private User getUser(ResultSet id) throws SQLException {
+        return new User(id.getInt("id"), id.getString("name"),
+                id.getString("email"), id.getString("password"));
     }
 }
