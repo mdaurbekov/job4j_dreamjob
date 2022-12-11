@@ -12,10 +12,11 @@ import static org.hamcrest.Matchers.is;
 
 
 public class CandidateDBStoreTest {
-    CandidateDBStore store = new CandidateDBStore(new Main().loadPool());
+
 
     @Test
     public void whenCreateCandidate() {
+        CandidateDBStore store = new CandidateDBStore(new Main().loadPool());
         Candidate candidate = new Candidate(1, "candidate 1", "description_1",
                 LocalDateTime.now(), true, new City(1, "Москва"), null);
         store.add(candidate);
@@ -25,6 +26,7 @@ public class CandidateDBStoreTest {
 
     @Test
     public void updateCandidate() {
+        CandidateDBStore store = new CandidateDBStore(new Main().loadPool());
         Candidate candidate1 = new Candidate(2, "candidate 1", "description_1",
                 LocalDateTime.now(), true, new City(1, "Москва"), null);
         Candidate candidate2 = new Candidate(2, "candidate 1 update", "description_1",
