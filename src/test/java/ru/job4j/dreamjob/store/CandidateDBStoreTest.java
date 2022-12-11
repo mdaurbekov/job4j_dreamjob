@@ -36,4 +36,4 @@ public class CandidateDBStoreTest {
         Candidate candidateInDb = store.findById(candidate2.getId());
         assertThat(candidateInDb.getName(), is(candidate2.getName()));
     }
-}*/
+}***/
