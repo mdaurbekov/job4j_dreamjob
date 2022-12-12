@@ -4,7 +4,7 @@ import ru.job4j.dreamjob.model.User;
 
 import javax.servlet.http.HttpSession;
 
-public class UserSession {
+public final class UserSession {
     private UserSession() {
     }
 
